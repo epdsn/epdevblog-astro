@@ -1,0 +1,9 @@
+---
+import { getEntryBySlug } from 'astro:content';
+
+const { params } = Astro;
+const note = await getEntryBySlug('notes', params.slug);
+---
+<h1>{note.data.title}</h1>
+<p><i>{note.data.date}</i></p>
+<div>{note.body}</div>
