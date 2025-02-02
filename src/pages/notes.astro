@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+
+// Filter only posts with the "notes" tag
+const notes = posts.filter(post => post.data.tags.includes("notes"));
+---
+<h1>Notes 📝</h1>
+<ul>
+  {notes.map((note) => (
+    <li>
+      <a href={`/blog/${note.slug}`}>{note.data.title}</a> - {note.data.pubDatetime}
+    </li>
+  ))}
+</ul>
+
+<a href="/blog">← Back to Blog</a>
