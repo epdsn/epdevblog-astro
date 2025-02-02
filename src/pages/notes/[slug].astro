@@ -1,9 +1,29 @@
 ---
-import { getEntryBySlug } from 'astro:content';
+import { getCollection } from 'astro:content';
 
-const { params } = Astro;
-const note = await getEntryBySlug('notes', params.slug);
+// Fetch all notes from the 'notes' collection
+const notes = await getCollection('notes');
+
+// Generate paths for each note based on its slug
+export async function getStaticPaths() {
+  return notes.map((note) => ({
+    params: { slug: note.slug },
+    props: { note },
+  }));
+}
+
+// Get the specific note based on the URL slug
+const { note } = Astro.props;
 ---
-<h1>{note.data.title}</h1>
-<p><i>{note.data.date}</i></p>
-<div>{note.body}</div>
+<html>
+  <head>
+    <title>{note.data.title} - Eric Perez</title>
+    <meta name="description" content={note.data.title} />
+  </head>
+  <body>
+    <h1>{note.data.title}</h1>
+    <p><i>{note.data.date}</i></p>
+    <div>{note.body}</div>
+    <a href="/notes">← Back to Notes</a>
+  </body>
+</html>

@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 
 const notes = await getCollection('notes');
 ---
-<h1>Notes 📝</h1>
+<h1>Notes</h1>
 <ul>
   {notes.map((note) => (
     <li>
