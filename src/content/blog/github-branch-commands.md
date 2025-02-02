@@ -9,13 +9,7 @@ tags:
   - commands
   - git
   - notes
-description: How you can make AstroPaper theme absolutely yours.
----
-
-# Common GitHub Branch Commands
-
-Working with branches in Git is essential for maintaining a smooth development workflow. Here are some of the most common Git commands I use when managing branches in a project.
-
+description: Here are some of the most common Git commands I use when managing branches in a project.
 ---
 
 ## 🔹 Creating & Switching Branches

@@ -3,12 +3,12 @@ title: "Quick Thoughts on AI"
 author: Eric Perez
 pubDatetime: 2025-02-02T15:33:05.569Z
 postSlug: quick-thouts-on-ai
-featured: false
+featured: true
 draft: false
 ogImage: /assets/forrest-gump-quote.webp
 tags:
-  - FAQ
-  - notes
+  - random
+  - ai
 description: Random thoughts.
 ---
 
