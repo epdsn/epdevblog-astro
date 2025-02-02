@@ -16,6 +16,9 @@ const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 
+// Filter posts that are tagged as "notes"
+const notes = sortedPosts.filter(({ data }) => data.tags && data.tags.includes("notes"));
+
 const socialCount = SOCIALS.filter(social => social.active).length;
 ---
 
@@ -46,6 +49,30 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         )
       }
     </section>
+    
+    <Hr />
+
+    {
+      notes.length > 0 && (
+        <>
+          <section id="notes">
+            <h2>Notes</h2>
+            <ul>
+              {notes.map(({ data }) => (
+                <Card
+                  href={`/posts/${slugify(data)}`}
+                  frontmatter={data}
+                  secHeading={false}
+                />
+              ))}
+            </ul>
+          </section>
+          <Hr />
+        </>
+      )
+    }
+
+
 
     <Hr />
 
@@ -69,7 +96,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       )
     }
 
-    <section id="recent-posts">
+    <!-- <section id="recent-posts">
       <h2>Recent Posts</h2>
       <ul>
         {
@@ -97,7 +124,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
           </svg>
         </LinkButton>
       </div>
-    </section>
+    </section> -->
   </main>
 
   <Footer />
@@ -128,10 +155,12 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   }
 
   /* ===== Featured & Recent Posts Sections ===== */
+  #notes,
   #featured,
   #recent-posts {
     @apply pb-6 pt-12;
   }
+  #notes h2,
   #featured h2,
   #recent-posts h2 {
     @apply text-2xl font-semibold tracking-wide;
