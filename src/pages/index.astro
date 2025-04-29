@@ -25,30 +25,35 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 <Layout>
   <Header />
   <main id="main-content">
-    <section id="hero">
-      <img src="/assets/web-dev-image.jpg" alt="Minimalist Developer Workspace" class="hero-image" />
-      <h1 class="mr-2">Welcome</h1>
-      <p>
-        I’m Eric Perez, a Full-Stack Developer passionate about building high-performance web applications. I specialize in front-end technologies, cloud deployment, and creating seamless user experiences.
-      </p>
-      <p>
-        Read the blog posts or check
-        <LinkButton
-          className="hover:text-skin-accent underline underline-offset-4 decoration-dashed"
-          href="https://github.com/satnaing/astro-paper#readme"
-        >
-          README
-        </LinkButton> for more info.
-      </p>
-      {
-        // only display if at least one social link is enabled
-        socialCount > 0 && (
-          <div class="social-wrapper">
-            <div class="social-links">Social Links:</div>
-            <Socials />
-          </div>
-        )
-      }
+    <section id="hero" class="hero-section">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title">Welcome</h1>
+          <p class="hero-description">
+            I'm Eric Perez, a Full-Stack Developer passionate about building high-performance web applications. I specialize in front-end technologies, cloud deployment, and creating seamless user experiences.
+          </p>
+          <p class="hero-cta">
+            Read the blog posts or check
+            <LinkButton
+              className="hover:text-skin-accent underline underline-offset-4 decoration-dashed"
+              href="https://github.com/satnaing/astro-paper#readme"
+            >
+              README
+            </LinkButton> for more info.
+          </p>
+          {
+            socialCount > 0 && (
+              <div class="social-wrapper">
+                <div class="social-links">Social Links:</div>
+                <Socials />
+              </div>
+            )
+          }
+        </div>
+        <div class="hero-image-container">
+          <img src="/assets/web-dev-image.jpg" alt="Minimalist Developer Workspace" class="hero-image" />
+        </div>
+      </div>
     </section>
     
     <Hr />
@@ -133,23 +138,32 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
 <style>
   /* ===== Hero Section ===== */
-  #hero {
-    @apply pb-6 pt-8;
+  .hero-section {
+    @apply py-12 sm:py-16;
   }
-  #hero h1 {
-    @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
+  .hero-content {
+    @apply grid gap-8 md:grid-cols-2 md:items-center;
   }
-  #hero .rss-link {
-    @apply mb-6;
+  .hero-text {
+    @apply space-y-4;
   }
-  #hero .rss-icon {
-    @apply mb-2 h-6 w-6 scale-110 fill-skin-accent sm:mb-3 sm:scale-125;
+  .hero-title {
+    @apply text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl;
   }
-  #hero p {
-    @apply my-2;
+  .hero-description {
+    @apply text-lg leading-relaxed text-skin-base/90;
+  }
+  .hero-cta {
+    @apply text-lg;
+  }
+  .hero-image-container {
+    @apply relative overflow-hidden rounded-lg shadow-xl;
+  }
+  .hero-image {
+    @apply w-full transform object-cover transition-transform duration-300 hover:scale-105;
   }
   .social-wrapper {
-    @apply mt-4 flex flex-col sm:flex-row sm:items-center;
+    @apply mt-6 flex flex-col sm:flex-row sm:items-center;
   }
   .social-links {
     @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
@@ -159,14 +173,14 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   #notes,
   #featured,
   #recent-posts {
-    @apply pb-6 pt-12;
+    @apply py-12;
   }
   #notes h2,
   #featured h2,
   #recent-posts h2 {
-    @apply text-2xl font-semibold tracking-wide;
+    @apply mb-8 text-3xl font-bold tracking-tight;
   }
   .all-posts-btn-wrapper {
-    @apply my-8 text-center;
+    @apply mt-12 text-center;
   }
 </style>

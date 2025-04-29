@@ -9,27 +9,44 @@ export interface Props {
 }
 
 export default function Card({ href, frontmatter, secHeading = true }: Props) {
-  const { title, pubDatetime, description } = frontmatter;
+  const { title, pubDatetime, description, tags } = frontmatter;
 
   const headerProps = {
     style: { viewTransitionName: slugifyStr(title) },
-    className: "text-lg font-medium decoration-dashed hover:underline",
+    className:
+      "text-xl font-semibold tracking-tight text-skin-base group-hover:text-skin-accent transition-colors duration-200",
   };
 
   return (
-    <li className="my-6">
+    <li className="group my-8">
       <a
         href={href}
-        className="inline-block text-lg font-medium text-skin-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
+        className="block rounded-lg border border-skin-line bg-skin-card p-6 transition-all duration-200 hover:border-skin-accent hover:shadow-lg"
       >
-        {secHeading ? (
-          <h2 {...headerProps}>{title}</h2>
-        ) : (
-          <h3 {...headerProps}>{title}</h3>
-        )}
+        <div className="space-y-4">
+          {secHeading ? (
+            <h2 {...headerProps}>{title}</h2>
+          ) : (
+            <h3 {...headerProps}>{title}</h3>
+          )}
+          <div className="flex items-center space-x-4 text-sm text-skin-base/70">
+            <Datetime datetime={pubDatetime} />
+            {tags && (
+              <div className="flex items-center space-x-2">
+                {tags.map(tag => (
+                  <span
+                    key={tag}
+                    className="rounded-full bg-skin-card-muted px-3 py-1 text-xs font-medium"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+          <p className="leading-relaxed text-skin-base/80">{description}</p>
+        </div>
       </a>
-      <Datetime datetime={pubDatetime} />
-      <p>{description}</p>
     </li>
   );
 }
