@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Hr from "@components/Hr.astro";
+import Card from "@components/Card";
+import slugify from "@utils/slugify";
+
+const projects = await getCollection("projects");
+const sortedProjects = projects.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout>
+  <Header activeNav="projects" />
+  <main id="main-content">
+    <section id="projects">
+      <h1 class="page-title">Projects</h1>
+      <p class="page-description">
+        A collection of my personal and professional projects. Each project represents a unique challenge and learning opportunity.
+      </p>
+      <ul class="projects-grid">
+        {sortedProjects.map((project) => (
+          <Card
+            href={`/projects/${slugify(project.data)}`}
+            frontmatter={project.data}
+            secHeading={false}
+          />
+        ))}
+      </ul>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  #projects {
+    @apply py-12;
+  }
+  .page-title {
+    @apply mb-4 text-4xl font-bold tracking-tight;
+  }
+  .page-description {
+    @apply mb-8 text-lg text-skin-base/90;
+  }
+  .projects-grid {
+    @apply grid gap-6 sm:grid-cols-2 lg:grid-cols-3;
+  }
+</style> 
