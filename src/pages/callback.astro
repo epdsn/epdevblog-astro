@@ -1,39 +1,134 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
 ---
 
 <Layout>
+  <Header />
   <main id="main-content">
     <section class="callback-section">
-      <h1 class="callback-title">Processing Login</h1>
-      <p class="callback-message">Please wait while we complete your login...</p>
+      <h1 class="callback-title">Completing Login</h1>
+      <p class="callback-description">
+        Please wait while we complete your login...
+      </p>
+      <div id="error-message" class="error-message"></div>
+      <div id="debug-info" class="debug-info"></div>
     </section>
   </main>
+  <Footer />
 </Layout>
-
-<script>
-  import { handleRedirectCallback } from '../utils/auth0Client';
-  
-  async function processCallback() {
-    const user = await handleRedirectCallback();
-    if (user) {
-      window.location.href = '/admin';
-    } else {
-      window.location.href = '/login';
-    }
-  }
-  
-  processCallback();
-</script>
 
 <style>
   .callback-section {
-    @apply flex min-h-[60vh] flex-col items-center justify-center py-12 text-center;
+    @apply py-12 text-center;
   }
   .callback-title {
-    @apply mb-4 text-2xl font-bold;
+    @apply mb-4 text-4xl font-bold tracking-tight;
   }
-  .callback-message {
-    @apply text-skin-base/70;
+  .callback-description {
+    @apply mb-8 text-lg text-skin-base/90;
   }
-</style> 
+  .error-message {
+    @apply mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded;
+  }
+  .debug-info {
+    @apply mt-4 p-4 bg-gray-100 border border-gray-400 text-gray-700 rounded text-left;
+    white-space: pre-wrap;
+    font-family: monospace;
+  }
+</style>
+
+<script>
+  import { handleRedirectCallback } from "../utils/auth0Client";
+  import { isAuthenticated, getUser } from "../config/auth0";
+
+  // Immediately log that we're starting
+  console.log("Callback page loaded");
+  const debugInfo = document.getElementById('debug-info');
+  if (debugInfo) {
+    debugInfo.textContent = "Starting authentication process...";
+  }
+
+  async function handleCallback() {
+    const errorElement = document.getElementById('error-message');
+    const debugElement = document.getElementById('debug-info');
+    
+    function updateDebug(message: string) {
+      if (debugElement) {
+        debugElement.textContent += `\n${message}`;
+      }
+      console.log(message);
+    }
+    
+    try {
+      updateDebug("Starting callback handling...");
+      updateDebug("Current URL: " + window.location.href);
+      
+      // Log URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      updateDebug("URL Parameters: " + JSON.stringify(Object.fromEntries(urlParams.entries()), null, 2));
+      
+      const { appState, user, token } = await handleRedirectCallback();
+      updateDebug("Callback handled successfully: " + JSON.stringify(appState, null, 2));
+      
+      // Store auth state in localStorage before redirect
+      if (user && token) {
+        localStorage.setItem('auth0:user', JSON.stringify(user));
+        localStorage.setItem('auth0:token', token);
+        localStorage.setItem('auth0:isAuthenticated', 'true');
+        updateDebug("Auth state stored in localStorage");
+      }
+      
+      // Verify authentication state
+      const isUserAuthenticated = isAuthenticated();
+      const storedUser = getUser();
+      updateDebug("Authentication state: " + (isUserAuthenticated ? "Authenticated" : "Not authenticated"));
+      updateDebug("User info: " + JSON.stringify(storedUser, null, 2));
+      updateDebug("Token present: " + (token ? "Yes" : "No"));
+      
+      if (!isUserAuthenticated || !storedUser) {
+        throw new Error("Authentication failed - user not authenticated after callback");
+      }
+      
+      // Add a longer delay to ensure the auth state is saved
+      setTimeout(() => {
+        const returnTo = appState?.returnTo || '/admin';
+        updateDebug("Redirecting to: " + returnTo);
+        // Add auth state to URL to ensure it's available on the next page
+        const redirectUrl = new URL(returnTo, window.location.origin);
+        redirectUrl.searchParams.set('auth', 'true');
+        window.location.href = redirectUrl.toString();
+      }, 2000);
+    } catch (err) {
+      const error = err as Error;
+      updateDebug("Error occurred: " + error.message);
+      if (error.stack) {
+        updateDebug("Error stack: " + error.stack);
+      }
+      
+      if (errorElement) {
+        errorElement.textContent = `Login failed: ${error.message || 'Unknown error'}`;
+        errorElement.style.display = 'block';
+      }
+      
+      // Don't redirect on error - let the user see the error
+      updateDebug("Staying on error page to show details");
+    }
+  }
+
+  // Handle the callback when the page loads
+  handleCallback().catch(err => {
+    const error = err as Error;
+    console.error("Unhandled error in callback:", error);
+    const errorElement = document.getElementById('error-message');
+    const debugElement = document.getElementById('debug-info');
+    
+    if (errorElement) {
+      errorElement.textContent = "An unexpected error occurred. Please try again.";
+    }
+    if (debugElement) {
+      debugElement.textContent += `\nUnhandled error: ${error.message}`;
+    }
+  });
+</script> 
