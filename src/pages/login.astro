@@ -1,0 +1,50 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+---
+
+<Layout>
+  <Header />
+  <main id="main-content">
+    <section class="login-section">
+      <h1 class="login-title">Login</h1>
+      <div class="login-container">
+        <p class="login-description">
+          Please log in to access the admin features of this blog.
+        </p>
+        <button id="login-button" class="login-button">
+          Log In
+        </button>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  import { login } from '../utils/auth0Client';
+  
+  document.getElementById('login-button')?.addEventListener('click', () => {
+    login();
+  });
+</script>
+
+<style>
+  .login-section {
+    @apply py-12 text-center;
+  }
+  .login-title {
+    @apply mb-8 text-3xl font-bold tracking-tight;
+  }
+  .login-container {
+    @apply mx-auto max-w-md rounded-lg border border-skin-line bg-skin-card p-8 shadow-md;
+  }
+  .login-description {
+    @apply mb-6 text-skin-base/80;
+  }
+  .login-button {
+    @apply rounded-md bg-skin-accent px-6 py-3 text-white font-medium
+    transition-colors duration-200 hover:bg-opacity-90;
+  }
+</style> 

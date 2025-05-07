@@ -1,0 +1,128 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import { isAuthenticated, getUser } from "../config/auth0";
+---
+
+<Layout>
+  <Header />
+  <main id="main-content">
+    <section class="admin-section">
+      <h1 class="admin-title">Admin Dashboard</h1>
+      
+      <div id="admin-content" class="admin-content">
+        <div class="admin-card">
+          <h2 class="admin-card-title">Welcome to the Admin Dashboard</h2>
+          <p class="admin-card-description">
+            This is where you can manage your blog content. You are logged in as <span id="user-name" class="font-semibold"></span>.
+          </p>
+          <div class="admin-actions">
+            <button id="new-post-button" class="admin-button">
+              Create New Post
+            </button>
+            <button id="logout-button" class="admin-button admin-button-secondary">
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="login-prompt" class="login-prompt hidden">
+        <div class="login-prompt-card">
+          <h2 class="login-prompt-title">Authentication Required</h2>
+          <p class="login-prompt-description">
+            You need to be logged in to access the admin dashboard.
+          </p>
+          <a href="/login" class="login-prompt-button">
+            Go to Login
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  import { logout } from '../utils/auth0Client';
+  
+  // Check authentication status
+  const isUserAuthenticated = isAuthenticated();
+  const user = getUser();
+  
+  const adminContent = document.getElementById('admin-content');
+  const loginPrompt = document.getElementById('login-prompt');
+  const userNameElement = document.getElementById('user-name');
+  const logoutButton = document.getElementById('logout-button');
+  const newPostButton = document.getElementById('new-post-button');
+  
+  if (isUserAuthenticated && user) {
+    if (adminContent) adminContent.classList.remove('hidden');
+    if (loginPrompt) loginPrompt.classList.add('hidden');
+    if (userNameElement) userNameElement.textContent = user.name || user.email;
+  } else {
+    if (adminContent) adminContent.classList.add('hidden');
+    if (loginPrompt) loginPrompt.classList.remove('hidden');
+  }
+  
+  // Add event listeners
+  logoutButton?.addEventListener('click', () => {
+    logout();
+  });
+  
+  newPostButton?.addEventListener('click', () => {
+    // This will be implemented later
+    alert('Create new post functionality coming soon!');
+  });
+</script>
+
+<style>
+  .admin-section {
+    @apply py-12;
+  }
+  .admin-title {
+    @apply mb-8 text-3xl font-bold tracking-tight;
+  }
+  .admin-content {
+    @apply space-y-8;
+  }
+  .admin-card {
+    @apply rounded-lg border border-skin-line bg-skin-card p-8 shadow-md;
+  }
+  .admin-card-title {
+    @apply mb-4 text-2xl font-semibold;
+  }
+  .admin-card-description {
+    @apply mb-6 text-skin-base/80;
+  }
+  .admin-actions {
+    @apply flex flex-wrap gap-4;
+  }
+  .admin-button {
+    @apply rounded-md bg-skin-accent px-6 py-3 text-white font-medium
+    transition-colors duration-200 hover:bg-opacity-90;
+  }
+  .admin-button-secondary {
+    @apply bg-skin-card-muted text-skin-base hover:bg-opacity-80;
+  }
+  .login-prompt {
+    @apply flex items-center justify-center;
+  }
+  .login-prompt-card {
+    @apply w-full max-w-md rounded-lg border border-skin-line bg-skin-card p-8 text-center shadow-md;
+  }
+  .login-prompt-title {
+    @apply mb-4 text-2xl font-semibold;
+  }
+  .login-prompt-description {
+    @apply mb-6 text-skin-base/80;
+  }
+  .login-prompt-button {
+    @apply inline-block rounded-md bg-skin-accent px-6 py-3 text-white font-medium
+    transition-colors duration-200 hover:bg-opacity-90;
+  }
+  .hidden {
+    @apply hidden;
+  }
+</style> 

@@ -42,10 +42,16 @@ Inside of AstroPaper, you'll see the following folders and files:
 │   │   |    └── some-blog-posts.md
 │   │   └── config.ts
 │   ├── layouts/
-│   └── pages/
-│   └── styles/
-│   └── utils/
-│   └── config.ts
+│   ├── pages/
+│   │   ├── admin.astro
+│   │   ├── login.astro
+│   │   └── callback.astro
+│   ├── styles/
+│   ├── utils/
+│   │   └── auth0Client.ts
+│   ├── config/
+│   │   └── auth0.ts
+│   ├── config.ts
 │   └── types.ts
 └── package.json
 ```
@@ -75,6 +81,27 @@ All blog posts are stored in `src/content/blog` directory.
 **Deployment** - [AWS Amplify](https://aws.amazon.com/amplify/)  
 **Illustration in About Page** - [https://freesvgillustration.com](https://freesvgillustration.com/)  
 **Linting** - [ESLint](https://eslint.org)
+
+## 🔐 Authentication with Auth0
+
+This blog includes authentication with Auth0, allowing you to log in and manage your blog content. To set up Auth0:
+
+1. Create an Auth0 account at [https://auth0.com/](https://auth0.com/)
+2. Create a new application (Single Page Application)
+3. Configure the following settings in your Auth0 application:
+   - Allowed Callback URLs: `http://localhost:4321/callback` (for development)
+   - Allowed Logout URLs: `http://localhost:4321` (for development)
+   - Allowed Web Origins: `http://localhost:4321` (for development)
+4. Create a `.env` file in the root directory with the following variables:
+   ```
+   PUBLIC_AUTH0_DOMAIN=your-auth0-domain.auth0.com
+   PUBLIC_AUTH0_CLIENT_ID=your-auth0-client-id
+   PUBLIC_AUTH0_REDIRECT_URI=http://localhost:4321/callback
+   PUBLIC_AUTH0_AUDIENCE=your-auth0-api-identifier
+   ```
+5. Replace the placeholder values with your actual Auth0 configuration
+
+For production, update the URLs in your Auth0 application settings and in the `.env` file to match your production domain.
 
 ## 👨🏻‍💻 Running Locally
 
