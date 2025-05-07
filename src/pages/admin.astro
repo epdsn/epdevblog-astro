@@ -14,6 +14,11 @@ import { isAuthenticated, getUser } from "../config/auth0";
       <div id="admin-content" class="admin-content">
         <p>Loading admin content...</p>
       </div>
+      <div id="admin-actions" class="admin-actions">
+        <button id="logout-button" class="logout-button">
+          Logout
+        </button>
+      </div>
     </section>
   </main>
   <Footer />
@@ -36,17 +41,25 @@ import { isAuthenticated, getUser } from "../config/auth0";
     @apply bg-green-100 border border-green-400 text-green-700;
   }
   .admin-content {
+    @apply mt-8 mb-8;
+  }
+  .admin-actions {
     @apply mt-8;
+  }
+  .logout-button {
+    @apply px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 
+    transition-colors duration-200 font-medium shadow-sm;
   }
 </style>
 
 <script>
   import { isAuthenticated, getUser } from "../config/auth0";
-  import { auth0Client } from "../utils/auth0Client";
+  import { auth0Client, logout } from "../utils/auth0Client";
 
   async function checkAuth() {
     const authStatus = document.getElementById('auth-status');
     const adminContent = document.getElementById('admin-content');
+    const adminActions = document.getElementById('admin-actions');
     
     function updateStatus(message: string, isError = false) {
       if (authStatus) {
@@ -119,4 +132,24 @@ import { isAuthenticated, getUser } from "../config/auth0";
       }
     }
   });
+
+  // Add logout functionality
+  const logoutButton = document.getElementById('logout-button');
+  if (logoutButton) {
+    logoutButton.addEventListener('click', async () => {
+      try {
+        // Clear local storage
+        localStorage.removeItem('auth0:user');
+        localStorage.removeItem('auth0:token');
+        localStorage.removeItem('auth0:isAuthenticated');
+        
+        // Call Auth0 logout
+        await logout();
+      } catch (error) {
+        console.error('Logout failed:', error);
+        // If logout fails, redirect to home page
+        window.location.href = '/';
+      }
+    });
+  }
 </script> 
