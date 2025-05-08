@@ -3,7 +3,7 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-I’m Eric Perez, a Full-Stack Developer passionate about building high-performance web applications. I specialize in front-end technologies, cloud deployment, and creating seamless user experiences.
+I’m Eric Perez, a Software Engineer passionate about building high-performance web applications. I specialize in front-end technologies, cloud deployment, and creating seamless user experiences.
 
 <div>
   <img src="/assets/dev.svg" class="sm:w-1/2 mx-auto" alt="coding dev illustration">
