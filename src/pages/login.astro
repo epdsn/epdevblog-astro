@@ -2,6 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
+import { isAuthenticated } from "../config/auth0";
 ---
 
 <Layout>
@@ -44,29 +45,39 @@ import Footer from "@components/Footer.astro";
   import { login } from "../utils/auth0Client";
   import { isAuthenticated } from "../config/auth0";
 
-  console.log("Login page loaded");
+  function initLogin() {
+    console.log("Login page loaded");
 
-  // Check if user is already authenticated
-  if (isAuthenticated()) {
-    console.log("User is already authenticated, redirecting to admin");
-    window.location.href = "/admin";
+    // Check if user is already authenticated
+    if (isAuthenticated()) {
+      console.log("User is already authenticated, redirecting to admin");
+      window.location.href = "/admin";
+      return;
+    }
+
+    const loginButton = document.getElementById("login-button");
+    const errorElement = document.getElementById("error-message");
+
+    if (loginButton) {
+      loginButton.addEventListener("click", async () => {
+        try {
+          console.log("Login button clicked, starting login process");
+          await login();
+        } catch (err) {
+          const error = err as Error;
+          console.error("Login failed:", error);
+          if (errorElement) {
+            errorElement.textContent = `Login failed: ${error.message || 'Unknown error'}`;
+          }
+        }
+      });
+    }
   }
 
-  const loginButton = document.getElementById("login-button");
-  const errorElement = document.getElementById("error-message");
-
-  if (loginButton) {
-    loginButton.addEventListener("click", async () => {
-      try {
-        console.log("Login button clicked, starting login process");
-        await login();
-      } catch (err) {
-        const error = err as Error;
-        console.error("Login failed:", error);
-        if (errorElement) {
-          errorElement.textContent = `Login failed: ${error.message || 'Unknown error'}`;
-        }
-      }
-    });
+  // Initialize when the DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLogin);
+  } else {
+    initLogin();
   }
 </script> 

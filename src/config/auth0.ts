@@ -15,3 +15,24 @@ export const getUser = () => {
   const userStr = localStorage.getItem("auth0:user");
   return userStr ? JSON.parse(userStr) : null;
 };
+
+type User = {
+  app_metadata: {
+    roles: string[];
+  };
+  role?: string;
+};
+
+export const saveUserRole = (user: User) => {
+  if (typeof window === "undefined") return;
+
+  console.log("User role from token:", user.role);
+
+  // Check multiple possible locations for the role
+  const role =
+    (user.app_metadata?.roles && user.app_metadata.roles[0]) || // From app_metadata
+    user.role || // From custom claim
+    "standard_user"; // Default fallback
+
+  localStorage.setItem("userRole", role);
+};
