@@ -28,18 +28,22 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     <section id="hero" class="hero-section">
       <div class="hero-content">
         <div class="hero-text">
-          <h1 class="hero-title">Welcome</h1>
           <p class="hero-description">
-            I'm Eric Perez, a Full-Stack Developer passionate about building high-performance web applications. I specialize in front-end technologies, cloud deployment, and creating seamless user experiences.
+            Hello, I'm Eric Perez, a Software Engineer passionate about building high-performance web applications. I specialize in front-end technologies, cloud deployment, and creating seamless user experiences.
           </p>
           <p class="hero-cta">
             Read the blog posts or check
             <LinkButton
               className="hover:text-skin-accent underline underline-offset-4 decoration-dashed"
-              href="https://github.com/satnaing/astro-paper#readme"
+              href="/about"
             >
-              README
-            </LinkButton> for more info.
+              About Me
+            </LinkButton> or <LinkButton
+            className="hover:text-skin-accent underline underline-offset-4 decoration-dashed"
+            href="/projects"
+          >
+            Projects
+          </LinkButton> to see what I am up to.
           </p>
           {
             socialCount > 0 && (

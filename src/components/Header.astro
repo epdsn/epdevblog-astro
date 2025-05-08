@@ -5,7 +5,7 @@ import LinkButton from "./LinkButton.astro";
 import { isAuthenticated, getUser } from "../config/auth0";
 
 export interface Props {
-  activeNav?: "posts" | "tags" | "about" | "search" | "admin";
+  activeNav?: "posts" | "tags" | "about" | "search" | "admin" | "projects";
 }
 
 const { activeNav } = Astro.props;
@@ -28,7 +28,7 @@ const { activeNav } = Astro.props;
             SITE.title
           )
         }
-        <br><span class="italic">Full-Stack Developer</span>
+        <br><span class="italic">Software Engineer</span>
       </a>
       <nav id="nav-menu">
         <button
@@ -63,8 +63,8 @@ const { activeNav } = Astro.props;
             </a>
           </li>
           <li>
-            <a href="/tags" class={activeNav === "tags" ? "active" : ""}>
-              Tags
+            <a href="/projects" class={activeNav === "projects" ? "active" : ""}>
+              Projects
             </a>
           </li>
           <li>
