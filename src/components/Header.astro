@@ -2,7 +2,6 @@
 import { LOGO_IMAGE, SITE } from "@config";
 import Hr from "./Hr.astro";
 import LinkButton from "./LinkButton.astro";
-import { isAuthenticated, getUser } from "../config/auth0";
 
 export interface Props {
   activeNav?: "posts" | "tags" | "about" | "search" | "admin" | "projects";
@@ -72,11 +71,6 @@ const { activeNav } = Astro.props;
               About
             </a>
           </li>
-          <li id="auth-nav-item">
-            <a href="/login" class={activeNav === "admin" ? "active" : ""}>
-              Login
-            </a>
-          </li>
         </ul>
       </nav>
     </div>
@@ -116,13 +110,6 @@ const { activeNav } = Astro.props;
   nav ul li a {
     @apply w-full px-4 py-3 text-center font-medium hover:text-skin-accent sm:my-0 sm:px-2 sm:py-1;
   }
-  nav ul li:nth-last-child(2) a {
-    @apply w-auto;
-  }
-  nav ul li:nth-last-child(1),
-  nav ul li:nth-last-child(2) {
-    @apply col-span-1;
-  }
   nav a.active {
     @apply underline decoration-wavy decoration-2 underline-offset-4;
   }
@@ -152,8 +139,6 @@ const { activeNav } = Astro.props;
 </style>
 
 <script>
-  import { isAuthenticated, getUser } from "../config/auth0";
-  
   function toggleNav() {
     // Toggle menu
     const menuBtn = document.querySelector(".hamburger-menu");
@@ -172,34 +157,8 @@ const { activeNav } = Astro.props;
     });
   }
 
-  function updateAuthNav() {
-    const authNavItem = document.getElementById("auth-nav-item");
-    if (!authNavItem) return;
-    
-    const isUserAuthenticated = isAuthenticated();
-    const user = getUser();
-    
-    if (isUserAuthenticated && user) {
-      authNavItem.innerHTML = `
-        <a href="/admin" class="${window.location.pathname === '/admin' ? 'active' : ''}">
-          Admin
-        </a>
-      `;
-    } else {
-      authNavItem.innerHTML = `
-        <a href="/login" class="${window.location.pathname === '/login' ? 'active' : ''}">
-          Login
-        </a>
-      `;
-    }
-  }
-
   toggleNav();
-  updateAuthNav();
 
   // Runs on view transitions navigation
-  document.addEventListener("astro:after-swap", () => {
-    toggleNav();
-    updateAuthNav();
-  });
+  document.addEventListener("astro:after-swap", toggleNav);
 </script>

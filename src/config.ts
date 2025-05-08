@@ -27,6 +27,12 @@ export const SOCIALS: SocialObjects = [
     active: true,
   },
   {
+    name: "Instagram",
+    href: "https://www.instagram.com/ericperezdev?igsh=cDV4b3dkczQycW9i&utm_source=qr",
+    linkTitle: `${SITE.title} on Instagram`,
+    active: true,
+  },
+  {
     name: "LinkedIn",
     href: "https://www.linkedin.com/in/ericperezdev/",
     linkTitle: `${SITE.title} on LinkedIn`,
@@ -34,15 +40,9 @@ export const SOCIALS: SocialObjects = [
   },
   {
     name: "Facebook",
-    href: "https://github.com/satnaing/astro-paper",
+    href: "https://www.facebook.com/share/19bPncGZ7z/?mibextid=wwXIfr",
     linkTitle: `${SITE.title} on Facebook`,
-    active: false,
-  },
-  {
-    name: "Instagram",
-    href: "https://github.com/satnaing/astro-paper",
-    linkTitle: `${SITE.title} on Instagram`,
-    active: false,
+    active: true,
   },
   {
     name: "Mail",
