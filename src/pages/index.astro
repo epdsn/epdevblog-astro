@@ -63,12 +63,12 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     <Hr />
 
     {
-      notes.length > 0 && (
+      featuredPosts.length > 0 && (
         <>
-          <section id="notes">
-            <h2>Notes</h2>
+          <section id="featured">
+            <h2>Blog</h2>
             <ul>
-              {notes.map(({ data }) => (
+              {featuredPosts.map(({ data }) => (
                 <Card
                   href={`/posts/${slugify(data)}`}
                   frontmatter={data}
@@ -82,17 +82,13 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       )
     }
 
-
-
-    <Hr />
-
     {
-      featuredPosts.length > 0 && (
+      notes.length > 0 && (
         <>
-          <section id="featured">
-            <h2>Featured</h2>
+          <section id="notes">
+            <h2>Notes</h2>
             <ul>
-              {featuredPosts.map(({ data }) => (
+              {notes.map(({ data }) => (
                 <Card
                   href={`/posts/${slugify(data)}`}
                   frontmatter={data}
