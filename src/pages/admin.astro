@@ -14,6 +14,7 @@ import { isAuthenticated, getUser } from "../config/auth0";
       <div id="admin-content" class="admin-content">
         <p>Loading admin content...</p>
       </div>
+      <div id="admin-message" class="admin-message"></div>
       <div id="admin-actions" class="admin-actions">
         <button id="logout-button" class="logout-button">
           Logout
@@ -43,6 +44,9 @@ import { isAuthenticated, getUser } from "../config/auth0";
   .admin-content {
     @apply mt-8 mb-8;
   }
+  .admin-message {
+    @apply mt-4 mb-8 p-4 bg-blue-50 border border-blue-200 text-blue-800 rounded-lg;
+  }
   .admin-actions {
     @apply mt-8;
   }
@@ -59,6 +63,7 @@ import { isAuthenticated, getUser } from "../config/auth0";
   async function checkAuth() {
     const authStatus = document.getElementById('auth-status');
     const adminContent = document.getElementById('admin-content');
+    const adminMessage = document.getElementById('admin-message');
     const adminActions = document.getElementById('admin-actions');
     
     function updateStatus(message: string, isError = false) {
@@ -124,11 +129,75 @@ import { isAuthenticated, getUser } from "../config/auth0";
   checkAuth().then(isAuthenticated => {
     if (isAuthenticated) {
       const adminContent = document.getElementById('admin-content');
+      const adminMessage = document.getElementById('admin-message');
+      const user = getUser();
+      
+      // Detailed debugging of user object
+      console.log("=== User Debug Info ===");
+      console.log("Full user object:", user);
+      console.log("app_metadata:", user?.app_metadata);
+      console.log("user_metadata:", user?.user_metadata);
+      console.log("All user properties:", Object.keys(user || {}));
+      
       if (adminContent) {
         adminContent.innerHTML = `
           <h2>Welcome to the Admin Dashboard</h2>
           <p>You are successfully authenticated.</p>
+          <div class="mt-4 p-4 bg-gray-50 rounded-lg text-gray-900">
+            <h3 class="font-semibold mb-2">User Information:</h3>
+            <div class="text-left text-sm">
+              <p class="font-medium">app_metadata:</p>
+              <pre class="bg-gray-100 p-2 rounded">${JSON.stringify(user?.app_metadata, null, 2)}</pre>
+              <p class="font-medium mt-4">user_metadata:</p>
+              <pre class="bg-gray-100 p-2 rounded">${JSON.stringify(user?.user_metadata, null, 2)}</pre>
+              <p class="font-medium mt-4">Full user object:</p>
+              <pre class="bg-gray-100 p-2 rounded">${JSON.stringify(user, null, 2)}</pre>
+            </div>
+          </div>
         `;
+      }
+
+      // Check for admin role in app_metadata - handle both structures
+      const hasAdminRole = 
+        user?.admin === true || 
+        user?.role === 'administrator';
+      
+      console.log("=== Role Check ===");
+      console.log("Has admin role:", hasAdminRole);
+      console.log("admin flag:", user?.app_metadata?.admin);
+      console.log("role value:", user?.app_metadata?.role);
+      console.log("permissions:", user?.app_metadata?.permissions);
+      
+      if (hasAdminRole) {
+        if (adminMessage) {
+          adminMessage.innerHTML = `
+            <div class="admin-role-message">
+              <p class="font-semibold">Hello Administrator!</p>
+              <p class="mt-2">Remember, with great power comes great responsibility.</p>
+              <p class="mt-2 text-sm">Use your admin privileges wisely.</p>
+              ${user?.app_metadata?.permissions ? `
+                <div class="mt-4 p-2 bg-blue-100 rounded">
+                  <p class="text-sm font-medium">Your Permissions:</p>
+                  <ul class="mt-1 text-sm">
+                    ${(user.app_metadata.permissions as string[]).map((perm: string) => `
+                      <li>• ${perm}</li>
+                    `).join('')}
+                  </ul>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }
+      } else {
+        if (adminMessage) {
+          adminMessage.innerHTML = `
+            <div class="admin-role-message">
+              <p class="text-yellow-800">Note: Admin role not detected. If you believe this is an error, please check your Auth0 configuration.</p>
+              <p class="mt-2 text-sm">Current metadata:</p>
+              <pre class="mt-1 text-xs bg-yellow-50 p-2 rounded">${JSON.stringify(user?.app_metadata, null, 2)}</pre>
+            </div>
+          `;
+        }
       }
     }
   });

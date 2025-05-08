@@ -8,7 +8,8 @@ export const auth0Client = new Auth0Client({
   authorizationParams: {
     redirect_uri: auth0Config.redirectUri,
     audience: auth0Config.audience,
-    scope: "openid profile email offline_access",
+    scope:
+      "openid profile email offline_access read:app_metadata read:user_metadata",
   },
   cacheLocation: "localstorage",
   useRefreshTokens: true,
@@ -57,7 +58,8 @@ export const login = async () => {
       authorizationParams: {
         redirect_uri: auth0Config.redirectUri,
         audience: auth0Config.audience,
-        scope: "openid profile email offline_access",
+        scope:
+          "openid profile email offline_access read:app_metadata read:user_metadata",
       },
       appState: { returnTo },
     });
