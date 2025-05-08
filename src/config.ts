@@ -6,7 +6,7 @@ export const SITE: Site = {
   desc: "Eric Perez is a Software Engineer focused on front-end development, cloud computing, and modern web technologies. Discover projects, insights, and quick notes.",
   title: "Eric Perez",
   ogImage: "astropaper-og.jpg",
-  lightAndDarkMode: true,
+  lightAndDarkMode: false,
   postPerPage: 3,
 };
 
@@ -22,27 +22,27 @@ export const LOGO_IMAGE = {
 export const SOCIALS: SocialObjects = [
   {
     name: "Github",
-    href: "https://github.com/satnaing/astro-paper",
-    linkTitle: ` ${SITE.title} on Github`,
+    href: "https://github.com/epdsn",
+    linkTitle: `${SITE.title} on Github`,
+    active: true,
+  },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/ericperezdev/",
+    linkTitle: `${SITE.title} on LinkedIn`,
     active: true,
   },
   {
     name: "Facebook",
     href: "https://github.com/satnaing/astro-paper",
     linkTitle: `${SITE.title} on Facebook`,
-    active: true,
+    active: false,
   },
   {
     name: "Instagram",
     href: "https://github.com/satnaing/astro-paper",
     linkTitle: `${SITE.title} on Instagram`,
-    active: true,
-  },
-  {
-    name: "LinkedIn",
-    href: "https://github.com/satnaing/astro-paper",
-    linkTitle: `${SITE.title} on LinkedIn`,
-    active: true,
+    active: false,
   },
   {
     name: "Mail",
