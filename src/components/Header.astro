@@ -2,9 +2,10 @@
 import { LOGO_IMAGE, SITE } from "@config";
 import Hr from "./Hr.astro";
 import LinkButton from "./LinkButton.astro";
+import { isAuthenticated, getUser } from "../config/auth0";
 
 export interface Props {
-  activeNav?: "posts" | "tags" | "about" | "search";
+  activeNav?: "posts" | "tags" | "about" | "search" | "admin" | "projects";
 }
 
 const { activeNav } = Astro.props;
@@ -27,7 +28,7 @@ const { activeNav } = Astro.props;
             SITE.title
           )
         }
-        <br><span class="italic">Full-Stack Developer</span>
+        <br><span class="italic">Software Engineer</span>
       </a>
       <nav id="nav-menu">
         <button
@@ -62,8 +63,8 @@ const { activeNav } = Astro.props;
             </a>
           </li>
           <li>
-            <a href="/tags" class={activeNav === "tags" ? "active" : ""}>
-              Tags
+            <a href="/projects" class={activeNav === "projects" ? "active" : ""}>
+              Projects
             </a>
           </li>
           <li>
@@ -108,6 +109,11 @@ const { activeNav } = Astro.props;
                 </button>
               )
             }
+          </li>
+          <li id="auth-nav-item">
+            <a href="/login" class={activeNav === "admin" ? "active" : ""}>
+              Login
+            </a>
           </li>
         </ul>
       </nav>
@@ -190,6 +196,8 @@ const { activeNav } = Astro.props;
 </style>
 
 <script>
+  import { isAuthenticated, getUser } from "../config/auth0";
+  
   function toggleNav() {
     // Toggle menu
     const menuBtn = document.querySelector(".hamburger-menu");
@@ -208,8 +216,34 @@ const { activeNav } = Astro.props;
     });
   }
 
+  function updateAuthNav() {
+    const authNavItem = document.getElementById("auth-nav-item");
+    if (!authNavItem) return;
+    
+    const isUserAuthenticated = isAuthenticated();
+    const user = getUser();
+    
+    if (isUserAuthenticated && user) {
+      authNavItem.innerHTML = `
+        <a href="/admin" class="${window.location.pathname === '/admin' ? 'active' : ''}">
+          Admin
+        </a>
+      `;
+    } else {
+      authNavItem.innerHTML = `
+        <a href="/login" class="${window.location.pathname === '/login' ? 'active' : ''}">
+          Login
+        </a>
+      `;
+    }
+  }
+
   toggleNav();
+  updateAuthNav();
 
   // Runs on view transitions navigation
-  document.addEventListener("astro:after-swap", toggleNav);
+  document.addEventListener("astro:after-swap", () => {
+    toggleNav();
+    updateAuthNav();
+  });
 </script>
