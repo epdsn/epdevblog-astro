@@ -29,7 +29,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
           ) : (
             <h3 {...headerProps}>{title}</h3>
           )}
-          <div className="flex items-center space-x-4 text-sm text-skin-base/70">
+          <div className="flex flex-col space-y-2 text-sm text-skin-base/70 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
             <Datetime datetime={pubDatetime} />
             {tags && (
               <div className="flex items-center space-x-2">

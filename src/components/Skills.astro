@@ -1,0 +1,81 @@
+---
+/// <reference types="astro/client" />
+
+const categories = ["Frontend", "Backend & Cloud", "Tools & Others"];
+const skills = [
+  [
+    ["Next.js", "nextjs"],
+    ["React", "react"],
+    ["TypeScript", "typescript"],
+    ["JavaScript", "javascript"]
+  ],
+  [
+    ["AWS Lambda", "aws-lambda"],
+    ["AWS", "aws"],
+    ["SQL", "postgresql"],
+    ["Auth0", "auth0"]
+  ],
+  [
+    ["Tailwind CSS", "tailwindcss"],
+    ["Git", "git"],
+    ["C#", "csharp"],
+    [".NET", "dotnet"]
+  ]
+];
+---
+
+<section id="skills" class="skills-section">
+  <h2 class="skills-title">Skills & Technologies</h2>
+  <div class="skills-container">
+    {categories.map((category, i) => (
+      <div class="skill-category">
+        <h3 class="category-title">{category}</h3>
+        <div class="skills-grid">
+          {skills[i].map(([name, icon]) => (
+            <div class="skill-item">
+              <img 
+                src={`/assets/icons/${icon}.svg`}
+                alt={`${name} icon`}
+                class="skill-icon"
+                width="32"
+                height="32"
+              />
+              <span class="skill-name">{name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .skills-section {
+    @apply py-12 px-4;
+  }
+  .skills-title {
+    @apply mb-12 text-3xl font-bold tracking-tight text-center;
+  }
+  .skills-container {
+    @apply max-w-3xl mx-auto space-y-8;
+  }
+  .skill-category {
+    @apply space-y-4;
+  }
+  .category-title {
+    @apply text-xl font-semibold text-skin-accent mb-4;
+  }
+  .skills-grid {
+    @apply grid grid-cols-2 sm:grid-cols-4 gap-6;
+  }
+  .skill-item {
+    @apply flex flex-col items-center justify-center space-y-2 p-4 rounded-lg 
+           bg-skin-card hover:bg-skin-card-muted transition-colors duration-200;
+  }
+  .skill-icon {
+    @apply w-8 h-8;
+  }
+  .skill-name {
+    @apply text-sm text-center font-medium;
+  }
+</style>
