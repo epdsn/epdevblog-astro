@@ -63,9 +63,9 @@ const socialCount = SOCIALS.filter(social => social.active).length;
           <section id="recent-projects">
             <h2>Recent Projects</h2>
             <ul>
-              {recentProjects.map(({ data }) => (
+              {recentProjects.map(({ slug, data }) => (
                 <ProjectCard
-                  href={`/projects/${slugify(data)}`}
+                  href={`/projects#${slug}`}
                   frontmatter={data}
                   secHeading={false}
                 />
@@ -112,7 +112,10 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   }
   .hero-title {
     @apply text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl;
-    color: white;
+    background: linear-gradient(135deg, #3b82f6, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   .hero-subtitle {
     @apply text-xl sm:text-2xl leading-relaxed;

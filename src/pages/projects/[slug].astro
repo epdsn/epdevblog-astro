@@ -1,0 +1,82 @@
+import { getCollection } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Footer from "@components/Footer.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<Layout title={`${project.data.title} - Eric Perez`}>
+  <main id="main-content">
+    <article>
+      <header class="mb-8">
+        <div class="page-header">
+          <a href="/" class="home-link">← Home</a>
+          <a href="/projects" class="home-link">← Projects</a>
+        </div>
+        
+        <h1 class="text-4xl font-bold tracking-tight mb-4">
+          {project.data.title}
+        </h1>
+        
+        {project.data.description && (
+          <p class="text-xl text-skin-base/80 mb-6">
+            {project.data.description}
+          </p>
+        )}
+        
+        <div class="flex flex-wrap gap-4 items-center text-sm text-skin-base/70 mb-6">
+          {project.data.pubDate && (
+            <time datetime={project.data.pubDate.toISOString()}>
+              {project.data.pubDate.toLocaleDateString()}
+            </time>
+          )}
+          
+          {project.data.liveUrl && (
+            <a 
+              href={project.data.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-skin-accent hover:underline"
+            >
+              View Live Site →
+            </a>
+          )}
+        </div>
+        
+        {project.data.technologies && (
+          <div class="flex flex-wrap gap-2 mb-8">
+            {project.data.technologies.map((tech: string) => (
+              <span class="rounded-full bg-skin-card-muted px-3 py-1 text-xs font-medium">
+                {tech}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+      
+      <div class="prose prose-lg max-w-none">
+        <Content />
+      </div>
+    </article>
+  </main>
+  
+  <Footer />
+</Layout>
+
+<style>
+  .page-header {
+    @apply mb-8;
+  }
+  .home-link {
+    @apply inline-block mb-4 mr-4 text-skin-accent hover:underline transition-colors duration-200;
+  }
+</style> 

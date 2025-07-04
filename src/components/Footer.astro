@@ -17,8 +17,11 @@ const { noMarginTop = false } = Astro.props;
     <Socials centered />
     <div class="copyright-wrapper">
       <span class="flex items-center gap-2">
-        <img src="/assets/logo_watermark_EP_reverse.webp" alt="EP Logo" class="footer-logo" />
-        Eric Perez Copyright &#169; {currentYear}
+        <a href="/" class="footer-home-link">
+          <img src="/assets/logo_watermark_EP_reverse.webp" alt="EP Logo" class="footer-logo" />
+          Eric Perez
+        </a>
+        <span>Copyright &#169; {currentYear}</span>
       </span>
       <span class="separator">&nbsp;|&nbsp;</span>
       <span>All rights reserved.</span>
@@ -57,5 +60,8 @@ const { noMarginTop = false } = Astro.props;
   }
   .footer-link {
     @apply hover:text-skin-accent transition-colors duration-200;
+  }
+  .footer-home-link {
+    @apply hover:text-skin-accent transition-colors duration-200 flex items-center gap-2;
   }
 </style>
