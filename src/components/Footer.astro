@@ -22,6 +22,10 @@ const { noMarginTop = false } = Astro.props;
       </span>
       <span class="separator">&nbsp;|&nbsp;</span>
       <span>All rights reserved.</span>
+      <span class="separator">&nbsp;|&nbsp;</span>
+      <a href="/blog" class="footer-link">Blog</a>
+      <span class="separator">&nbsp;|&nbsp;</span>
+      <a href="/notes" class="footer-link">Notes</a>
     </div>
   </div>
 </footer>
@@ -50,5 +54,8 @@ const { noMarginTop = false } = Astro.props;
     @apply opacity-70;
     width: 23px;
     height: 17px;
+  }
+  .footer-link {
+    @apply hover:text-skin-accent transition-colors duration-200;
   }
 </style>

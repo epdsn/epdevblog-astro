@@ -8,22 +8,21 @@ import slugify from "@utils/slugify";
 
 const posts = await getCollection("blog");
 const sortedPosts = getSortedPosts(posts);
-const notes = sortedPosts.filter(({ data }) => data.tags && data.tags.includes("notes"));
 ---
 
-<Layout title="Eric Perez Notes">
+<Layout title="Eric Perez Blog">
   <main id="main-content">
-    <section id="notes">
+    <section id="blog">
       <div class="page-header">
         <a href="/" class="home-link">← Home</a>
-        <h1>Notes</h1>
+        <h1>Blog</h1>
         <p class="description">
-          Quick thoughts, snippets, and brief insights on various topics and discoveries.
+          Thoughts, tutorials, and insights on software development, technology, and building better applications.
         </p>
       </div>
       
       <ul>
-        {notes.map(({ data }) => (
+        {sortedPosts.map(({ data }) => (
           <Card
             href={`/posts/${slugify(data)}`}
             frontmatter={data}
@@ -38,7 +37,7 @@ const notes = sortedPosts.filter(({ data }) => data.tags && data.tags.includes("
 </Layout>
 
 <style>
-  #notes {
+  #blog {
     @apply py-16;
   }
   .page-header {
@@ -47,7 +46,7 @@ const notes = sortedPosts.filter(({ data }) => data.tags && data.tags.includes("
   .home-link {
     @apply inline-block mb-6 text-skin-accent hover:underline transition-colors duration-200;
   }
-  #notes h1 {
+  #blog h1 {
     @apply mb-4 text-4xl font-bold tracking-tight text-center;
     color: white;
   }
@@ -55,7 +54,7 @@ const notes = sortedPosts.filter(({ data }) => data.tags && data.tags.includes("
     @apply mb-12 text-lg text-center max-w-2xl mx-auto;
     color: #e5e7eb;
   }
-  #notes ul {
+  #blog ul {
     @apply space-y-8;
   }
-</style>
+</style> 
