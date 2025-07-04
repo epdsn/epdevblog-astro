@@ -16,7 +16,10 @@ const { noMarginTop = false } = Astro.props;
   <div class="footer-wrapper">
     <Socials centered />
     <div class="copyright-wrapper">
-      <span>Eric Perez Copyright &#169; {currentYear}</span>
+      <span class="flex items-center gap-2">
+        <img src="/assets/logo_watermark_EP_reverse.webp" alt="EP Logo" class="footer-logo" />
+        Eric Perez Copyright &#169; {currentYear}
+      </span>
       <span class="separator">&nbsp;|&nbsp;</span>
       <span>All rights reserved.</span>
     </div>
@@ -38,8 +41,14 @@ const { noMarginTop = false } = Astro.props;
   }
   .copyright-wrapper {
     @apply my-2 flex flex-col items-center whitespace-nowrap sm:flex-row;
+    font-size: 12px;
   }
   .separator {
     @apply hidden sm:inline;
+  }
+  .footer-logo {
+    @apply opacity-70;
+    width: 23px;
+    height: 17px;
   }
 </style>
