@@ -1,50 +1,47 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import LinkButton from "@components/LinkButton.astro";
 import Hr from "@components/Hr.astro";
-import Card from "@components/Card";
+import ProjectCard from "@components/ProjectCard";
 import Socials from "@components/Socials.astro";
-import getSortedPosts from "@utils/getSortedPosts";
 import slugify from "@utils/slugify";
 import { SOCIALS } from "@config";
 
-const posts = await getCollection("blog");
+const projects = await getCollection("projects");
 
-const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-
-// Filter posts that are tagged as "notes"
-const notes = sortedPosts.filter(({ data }) => data.tags && data.tags.includes("notes"));
+// Get the two most recent projects
+const sortedProjects = projects.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+const recentProjects = sortedProjects.slice(0, 2);
 
 const socialCount = SOCIALS.filter(social => social.active).length;
 ---
 
 <Layout>
-  <Header />
   <main id="main-content">
+    <!-- Hero Section -->
     <section id="hero" class="hero-section">
       <div class="hero-content">
         <div class="hero-text">
-          <p class="hero-description">
-            Hello, I'm Eric Perez, a Software Engineer passionate about building high-performance web applications. I specialize in front-end technologies, cloud deployment, and creating seamless user experiences.
-          </p>
-          <p class="hero-cta">
-            Read the blog posts or check
+          <h1 class="hero-title">Hi, I'm Eric Perez</h1>
+          <p class="hero-subtitle">Fullstack engineer building modern apps with AWS, React, and TypeScript.</p>
+          
+          <div class="hero-buttons">
             <LinkButton
-              className="hover:text-skin-accent underline underline-offset-4 decoration-dashed"
-              href="/about"
+              className="primary-button"
+              href="/projects"
             >
-              About Me
-            </LinkButton> or <LinkButton
-            className="hover:text-skin-accent underline underline-offset-4 decoration-dashed"
-            href="/projects"
-          >
-            Projects
-          </LinkButton> to see what I am up to.
-          </p>
+              View Projects
+            </LinkButton>
+            <LinkButton
+              className="secondary-button"
+              href="/resume.pdf"
+            >
+              Download Resume
+            </LinkButton>
+          </div>
+
           {
             socialCount > 0 && (
               <div class="social-wrapper">
@@ -54,23 +51,21 @@ const socialCount = SOCIALS.filter(social => social.active).length;
             )
           }
         </div>
-        <div class="hero-image-container">
-          <img src="/assets/web-dev-image.jpg" alt="Minimalist Developer Workspace" class="hero-image" />
-        </div>
       </div>
     </section>
     
     <Hr />
 
+    <!-- Recent Projects Section -->
     {
-      featuredPosts.length > 0 && (
+      recentProjects.length > 0 && (
         <>
-          <section id="featured">
-            <h2>Blog</h2>
+          <section id="recent-projects">
+            <h2>Recent Projects</h2>
             <ul>
-              {featuredPosts.map(({ data }) => (
-                <Card
-                  href={`/posts/${slugify(data)}`}
+              {recentProjects.map(({ slug, data }) => (
+                <ProjectCard
+                  href={`/projects#${slug}`}
                   frontmatter={data}
                   secHeading={false}
                 />
@@ -82,55 +77,23 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       )
     }
 
-    {
-      notes.length > 0 && (
-        <>
-          <section id="notes">
-            <h2>Notes</h2>
-            <ul>
-              {notes.map(({ data }) => (
-                <Card
-                  href={`/posts/${slugify(data)}`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              ))}
-            </ul>
-          </section>
-          <Hr />
-        </>
-      )
-    }
-
-    <!-- <section id="recent-posts">
-      <h2>Recent Posts</h2>
-      <ul>
-        {
-          sortedPosts
-            .filter(({ data }) => !data.featured)
-            .map(
-              ({ data }, index) =>
-                index < 4 && (
-                  <Card
-                    href={`/posts/${slugify(data)}`}
-                    frontmatter={data}
-                    secHeading={false}
-                  />
-                )
-            )
-        }
-      </ul>
-      <div class="all-posts-btn-wrapper">
-        <LinkButton href="/posts">
-          All Posts
-          <svg xmlns="http://www.w3.org/2000/svg"
-            ><path
-              d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
-            ></path>
-          </svg>
-        </LinkButton>
+    <!-- About Me Section -->
+    <section id="about-me">
+      <div class="about-content">
+        <div class="about-image">
+          <img src="/assets/eric_perez_icon.PNG" alt="Eric Perez" class="profile-image" />
+        </div>
+        <div class="about-text">
+          <h2>About Me</h2>
+          <p>
+            I'm a senior engineer with a passion for scalable systems, clean design, and user-friendly tools. 
+            Currently focused on building full-stack apps using the modern AWS ecosystem.
+          </p>
+        </div>
       </div>
-    </section> -->
+    </section>
+
+
   </main>
 
   <Footer />
@@ -139,48 +102,105 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 <style>
   /* ===== Hero Section ===== */
   .hero-section {
-    @apply py-12 sm:py-16;
+    @apply py-16 sm:py-24;
   }
   .hero-content {
-    @apply grid gap-8 md:grid-cols-2 md:items-center;
+    @apply max-w-4xl mx-auto text-center;
   }
   .hero-text {
-    @apply space-y-4;
+    @apply space-y-8;
   }
   .hero-title {
-    @apply text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl;
+    @apply text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl;
+    background: linear-gradient(135deg, #3b82f6, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .hero-description {
-    @apply text-lg leading-relaxed text-skin-base/90;
+  .hero-subtitle {
+    @apply text-xl sm:text-2xl leading-relaxed;
+    color: #e5e7eb;
   }
-  .hero-cta {
-    @apply text-lg;
+  .hero-buttons {
+    @apply flex flex-col sm:flex-row gap-4 justify-center items-center;
   }
-  .hero-image-container {
-    @apply relative overflow-hidden rounded-lg shadow-xl;
+  .primary-button {
+    @apply px-8 py-3 text-lg font-semibold rounded-lg transition-all duration-200;
+    background-color: #3b82f6;
+    color: white;
   }
-  .hero-image {
-    @apply w-full transform object-cover transition-transform duration-300 hover:scale-105;
+  .primary-button:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+  }
+  .secondary-button {
+    @apply px-8 py-3 text-lg font-semibold rounded-lg border-2 transition-all duration-200;
+    background-color: transparent;
+    color: white;
+    border-color: white;
+  }
+  .secondary-button:hover {
+    background-color: white;
+    color: black;
+    transform: translateY(-2px);
   }
   .social-wrapper {
-    @apply mt-6 flex flex-col sm:flex-row sm:items-center;
+    @apply mt-8 flex flex-col sm:flex-row sm:items-center justify-center;
   }
   .social-links {
-    @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
+    @apply mb-2 mr-4 whitespace-nowrap sm:mb-0;
+    color: #e5e7eb;
   }
 
-  /* ===== Featured & Recent Posts Sections ===== */
+  /* ===== Recent Projects Section ===== */
+  #recent-projects {
+    @apply py-16;
+  }
+  #recent-projects h2 {
+    @apply mb-8 text-3xl font-bold tracking-tight text-center;
+    color: white;
+  }
+  #recent-projects ul {
+    @apply grid gap-6 md:grid-cols-2;
+  }
+  #recent-projects ul li {
+    @apply flex;
+  }
+  #recent-projects ul li a {
+    @apply flex flex-col w-full;
+  }
+
+  /* ===== About Me Section ===== */
+  #about-me {
+    @apply py-16;
+  }
+  .about-content {
+    @apply grid gap-8 md:grid-cols-2 md:items-center max-w-4xl mx-auto;
+  }
+  .about-image {
+    @apply flex justify-center;
+  }
+  .profile-image {
+    @apply w-56 h-56 rounded-full object-cover shadow-2xl;
+    transform: scale(0.5);
+  }
+  .about-text h2 {
+    @apply mb-6 text-3xl font-bold tracking-tight;
+    color: white;
+  }
+  .about-text p {
+    @apply text-lg leading-relaxed;
+    color: #e5e7eb;
+  }
+
+  /* ===== Featured & Notes Sections ===== */
   #notes,
-  #featured,
-  #recent-posts {
-    @apply py-12;
+  #featured {
+    @apply py-16;
   }
   #notes h2,
-  #featured h2,
-  #recent-posts h2 {
-    @apply mb-8 text-3xl font-bold tracking-tight;
-  }
-  .all-posts-btn-wrapper {
-    @apply mt-12 text-center;
+  #featured h2 {
+    @apply mb-8 text-3xl font-bold tracking-tight text-center;
+    color: white;
   }
 </style>

@@ -21,7 +21,7 @@ const sortedProjects = projects.sort((a, b) => b.data.pubDate.valueOf() - a.data
       </p>
       <div class="projects-list">
         {sortedProjects.map((project) => (
-          <div class="project-card">
+          <div class="project-card" id={project.slug}>
             {project.data.heroImage && (
               <div class="project-image">
                 <Image

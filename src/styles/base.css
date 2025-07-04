@@ -7,19 +7,19 @@
 @layer base {
   :root,
   html[data-theme="light"] {
-    --color-fill: 250, 250, 250;
-    --color-text-base: 23, 23, 23;
-    --color-accent: 79, 70, 229;
-    --color-card: 255, 255, 255;
-    --color-card-muted: 243, 244, 246;
-    --color-border: 229, 231, 235;
+    --color-fill: 0, 0, 0;
+    --color-text-base: 255, 255, 255;
+    --color-accent: 59, 130, 246;
+    --color-card: 17, 24, 39;
+    --color-card-muted: 31, 41, 55;
+    --color-border: 75, 85, 99;
   }
   html[data-theme="dark"] {
-    --color-fill: 17, 24, 39;
-    --color-text-base: 243, 244, 246;
-    --color-accent: 129, 140, 248;
-    --color-card: 31, 41, 55;
-    --color-card-muted: 55, 65, 81;
+    --color-fill: 0, 0, 0;
+    --color-text-base: 255, 255, 255;
+    --color-accent: 59, 130, 246;
+    --color-card: 17, 24, 39;
+    --color-card-muted: 31, 41, 55;
     --color-border: 75, 85, 99;
   }
   #sun-svg,
