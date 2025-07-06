@@ -36,9 +36,10 @@ const socialCount = SOCIALS.filter(social => social.active).length;
             </LinkButton>
             <LinkButton
               className="secondary-button"
-              href="/resume.pdf"
+              href="https://www.linkedin.com/in/ericperezdev/"
+              external={true}
             >
-              Download Resume
+              Contact Me on LinkedIn
             </LinkButton>
           </div>
 
@@ -54,7 +55,6 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </div>
     </section>
     
-    <Hr />
 
     <!-- Recent Projects Section -->
     {
@@ -72,7 +72,6 @@ const socialCount = SOCIALS.filter(social => social.active).length;
               ))}
             </ul>
           </section>
-          <Hr />
         </>
       )
     }
@@ -157,7 +156,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     @apply py-16;
   }
   #recent-projects h2 {
-    @apply mb-8 text-3xl font-bold tracking-tight text-center;
+    @apply text-3xl font-bold tracking-tight text-center;
     color: white;
   }
   #recent-projects ul {
@@ -172,7 +171,8 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
   /* ===== About Me Section ===== */
   #about-me {
-    @apply py-16;
+    @apply py-16 px-8 rounded-lg;
+    background-color: #172435; /* Dark grey background */
   }
   .about-content {
     @apply grid gap-8 md:grid-cols-2 md:items-center max-w-4xl mx-auto;

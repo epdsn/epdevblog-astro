@@ -12,7 +12,6 @@ technologies:
     "React",
     "TypeScript",
     "Auth0",
-    "WordPress",
     "Express.js",
     "SQL Server",
   ]

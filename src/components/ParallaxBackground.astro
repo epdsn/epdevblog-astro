@@ -1,0 +1,75 @@
+---
+// ParallaxBackground.astro
+---
+
+<div class="parallax-background">
+  <div class="parallax-layer"></div>
+</div>
+
+<style>
+  .parallax-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background-color: #000;
+  }
+
+  .parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%; /* Slightly taller to allow for parallax movement */
+    background-image: url('/assets/ep_site_bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    transform: translateY(0);
+    will-change: transform;
+  }
+
+  /* Add a subtle overlay to ensure text readability */
+  .parallax-layer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1); /* Lighter overlay since background is already black */
+    pointer-events: none;
+  }
+
+  /* Ensure content has proper z-index */
+  body {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .parallax-layer {
+      background-attachment: scroll; /* Disable parallax on mobile for better performance */
+    }
+  }
+</style>
+
+<script>
+  // Add smooth parallax effect on scroll
+  document.addEventListener('DOMContentLoaded', () => {
+    const parallaxLayer = document.querySelector('.parallax-layer') as HTMLElement;
+    
+    if (parallaxLayer && window.innerWidth > 768) {
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5; // Adjust speed here (negative for opposite direction)
+        parallaxLayer.style.transform = `translateY(${rate}px)`;
+      });
+    }
+  });
+</script> 

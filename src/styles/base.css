@@ -10,16 +10,16 @@
     --color-fill: 0, 0, 0;
     --color-text-base: 255, 255, 255;
     --color-accent: 59, 130, 246;
-    --color-card: 17, 24, 39;
-    --color-card-muted: 31, 41, 55;
+    --color-card: 0, 0, 0;
+    --color-card-muted: 10, 10, 10;
     --color-border: 75, 85, 99;
   }
   html[data-theme="dark"] {
     --color-fill: 0, 0, 0;
     --color-text-base: 255, 255, 255;
     --color-accent: 59, 130, 246;
-    --color-card: 17, 24, 39;
-    --color-card-muted: 31, 41, 55;
+    --color-card: 0, 0, 0;
+    --color-card-muted: 10, 10, 10;
     --color-border: 75, 85, 99;
   }
   #sun-svg,
@@ -31,13 +31,17 @@
     display: block;
   }
   body {
-    @apply flex min-h-[100svh] flex-col bg-skin-fill font-sans text-skin-base 
+    @apply flex min-h-[100svh] flex-col font-sans text-skin-base 
     antialiased selection:bg-skin-accent selection:bg-opacity-70
     selection:text-skin-inverted;
+    /* Remove background color since we're using parallax background */
   }
   section,
   footer {
     @apply mx-auto max-w-4xl px-4 sm:px-6 lg:px-8;
+    /* Transparent background */
+    background: transparent;
+    border: none;
   }
   a {
     @apply outline-2 outline-offset-1 outline-skin-fill 

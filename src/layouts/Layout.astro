@@ -2,6 +2,7 @@
 import { SITE } from "@config";
 import "@styles/base.css";
 import { ViewTransitions } from "astro:transitions";
+import ParallaxBackground from "@components/ParallaxBackground.astro";
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -84,6 +85,7 @@ const socialImageURL = new URL(
     <script is:inline src="/toggle-theme.js"></script>
   </head>
   <body>
+    <ParallaxBackground />
     <slot />
   </body>
 </html>
