@@ -15,7 +15,7 @@ const sortedPosts = getSortedPosts(posts);
     <section id="blog">
       <div class="page-header">
         <a href="/" class="home-link">← Home</a>
-        <h1>Blog</h1>
+        <h1>Eric Perez's Blog</h1>
         <p class="description">
           Thoughts, tutorials, and insights on software development, technology, and building better applications.
         </p>
@@ -56,5 +56,15 @@ const sortedPosts = getSortedPosts(posts);
   }
   #blog ul {
     @apply space-y-8;
+  }
+  
+  /* Override section constraints for full width on mobile */
+  @media (max-width: 768px) {
+    #blog {
+      @apply max-w-none mx-0 px-0;
+    }
+    #blog ul li a {
+      @apply mx-0 rounded-none border-l-0 border-r-0;
+    }
   }
 </style> 

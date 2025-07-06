@@ -4,7 +4,7 @@ description: "Led development of SaaS platform VisualVault, creating web and mob
 pubDate: 2015-04-01
 liveUrl: https://www.visualvault.com/
 heroImage: "../../assets/projects/visualvault-form-designer.png"
-technologies: ["MVC.NET", "AngularJS", "Kendo UI", "Sitefinity CMS"]
+technologies: ["MVC.NET", "Angular", "Kendo UI", "Sitefinity CMS"]
 featured: true
 ---
 
