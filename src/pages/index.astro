@@ -23,9 +23,13 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     <!-- Hero Section -->
     <section id="hero" class="hero-section">
       <div class="hero-content">
-        <div class="hero-text">
-          <h1 class="hero-title">Hi, I'm Eric Perez</h1>
-          <p class="hero-subtitle">Fullstack engineer building modern apps with AWS, React, and TypeScript.</p>
+                  <div class="hero-text">
+            <h1 class="hero-title">
+              <span id="typewriter-title"></span>
+            </h1>
+            <p class="hero-subtitle">
+              <span id="typewriter-subtitle"></span>
+            </p>
           
           <div class="hero-buttons">
             <LinkButton
@@ -97,6 +101,43 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
   <Footer />
 </Layout>
+
+<script>
+  // Typewriter effect
+  function typeWriter(element: HTMLElement, text: string, speed: number = 100): Promise<void> {
+    return new Promise((resolve) => {
+      let i = 0;
+      element.innerHTML = '';
+      
+      function type(): void {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else {
+          resolve();
+        }
+      }
+      
+      type();
+    });
+  }
+
+  // Initialize typewriter when DOM is loaded
+  document.addEventListener('DOMContentLoaded', async function() {
+    const titleElement = document.getElementById('typewriter-title') as HTMLElement;
+    const subtitleElement = document.getElementById('typewriter-subtitle') as HTMLElement;
+    
+    if (titleElement && subtitleElement) {
+      const titleText = "Hi, I'm Eric Perez";
+      const subtitleText = "Fullstack engineer building modern apps with AWS, React, and TypeScript.";
+      
+      // Animate title first, then subtitle
+      await typeWriter(titleElement, titleText, 100);
+      await typeWriter(subtitleElement, subtitleText, 80);
+    }
+  });
+</script>
 
 <style>
   /* ===== Hero Section ===== */
