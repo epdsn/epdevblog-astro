@@ -24,14 +24,14 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     <section id="hero" class="hero-section">
       <div class="hero-content">
                   <div class="hero-text">
-            <h1 class="hero-title">
-              <span id="typewriter-title"></span>
+            <h1 class="hero-title fade-in-up">
+              Hi, I'm Eric Perez
             </h1>
-            <p class="hero-subtitle">
-              <span id="typewriter-subtitle"></span>
+            <p class="hero-subtitle fade-in-up">
+              — a senior software engineer with extensive experience in .NET and Microsoft technologies. Over the years, I've designed and built scalable systems across industries like healthcare, e-commerce, and SaaS, using tools like C#, SQL Server, and Azure, as well as modern front-end stacks like React, Angular, and TypeScript. Reach out and let's build something great together...
             </p>
           
-          <div class="hero-buttons">
+          <div class="hero-buttons fade-in-up">
             <LinkButton
               className="primary-button"
               href="/projects"
@@ -49,7 +49,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
           {
             socialCount > 0 && (
-              <div class="social-wrapper">
+              <div class="social-wrapper fade-in-up">
                 <div class="social-links">Social Links:</div>
                 <Socials />
               </div>
@@ -88,9 +88,17 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         </div>
         <div class="about-text">
           <h2>About Me</h2>
-          <p>
-            I'm a senior engineer with a passion for scalable systems, clean design, and user-friendly tools. 
-            Currently focused on building full-stack apps using the modern AWS ecosystem.
+<p>
+  I thrive on solving complex problems, whether it’s architecting cloud-native solutions or streamlining legacy codebases. I also have a growing passion for storytelling, media, and AI — and I’m building a creative studio that blends technology with narrative.
+</p>
+<p>
+  Whether I’m deep in code or sketching out a new product idea, I’m all about creating meaningful, high-impact solutions.
+</p>
+<p>
+  Right now, I’m looking for a role where I can contribute as an engineer while continuing to sharpen my craft and push creative boundaries.
+</p>
+<p>
+  I’m always looking for new challenges and opportunities to grow. If you’re interested in working together, please reach out!
           </p>
         </div>
       </div>
@@ -103,39 +111,22 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 </Layout>
 
 <script>
-  // Typewriter effect
-  function typeWriter(element: HTMLElement, text: string, speed: number = 100): Promise<void> {
-    return new Promise((resolve) => {
-      let i = 0;
-      element.innerHTML = '';
-      
-      function type(): void {
-        if (i < text.length) {
-          element.innerHTML += text.charAt(i);
-          i++;
-          setTimeout(type, speed);
-        } else {
-          resolve();
-        }
-      }
-      
-      type();
-    });
+  // Fade in animation
+  function animateFadeInUp(element: HTMLElement, delay: number = 0): void {
+    setTimeout(() => {
+      element.style.opacity = '1';
+      element.style.transform = 'translateY(0)';
+    }, delay);
   }
 
-  // Initialize typewriter when DOM is loaded
-  document.addEventListener('DOMContentLoaded', async function() {
-    const titleElement = document.getElementById('typewriter-title') as HTMLElement;
-    const subtitleElement = document.getElementById('typewriter-subtitle') as HTMLElement;
+  // Initialize fade-in animations when DOM is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    const fadeElements = document.querySelectorAll('.fade-in-up');
     
-    if (titleElement && subtitleElement) {
-      const titleText = "Hi, I'm Eric Perez";
-      const subtitleText = "Fullstack engineer building modern apps with AWS, React, and TypeScript.";
-      
-      // Animate title first, then subtitle
-      await typeWriter(titleElement, titleText, 100);
-      await typeWriter(subtitleElement, subtitleText, 80);
-    }
+    fadeElements.forEach((element, index) => {
+      const delay = index * 300; // 300ms delay between each element
+      animateFadeInUp(element as HTMLElement, delay);
+    });
   });
 </script>
 
@@ -243,5 +234,11 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   #featured h2 {
     @apply mb-8 text-3xl font-bold tracking-tight text-center;
     color: white;
+  }
+
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
   }
 </style>
