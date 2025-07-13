@@ -23,11 +23,15 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     <!-- Hero Section -->
     <section id="hero" class="hero-section">
       <div class="hero-content">
-        <div class="hero-text">
-          <h1 class="hero-title">Hi, I'm Eric Perez</h1>
-          <p class="hero-subtitle">Fullstack engineer building modern apps with AWS, React, and TypeScript.</p>
+                  <div class="hero-text">
+            <h1 class="hero-title fade-in-up">
+              Hi, I'm Eric Perez
+            </h1>
+            <p class="hero-subtitle fade-in-up">
+              — Senior Software Engineer with a strong background in .NET and Microsoft technologies. I’ve led and delivered scalable solutions across healthcare, e-commerce, and SaaS, using C#, SQL Server, Azure, and modern front-end stacks like React, Angular, and TypeScript. Recently, I’ve been leveraging AI to drive innovation and efficiency. Let’s build something impactful together.
+            </p>
           
-          <div class="hero-buttons">
+          <div class="hero-buttons fade-in-up">
             <LinkButton
               className="primary-button"
               href="/projects"
@@ -45,7 +49,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
           {
             socialCount > 0 && (
-              <div class="social-wrapper">
+              <div class="social-wrapper fade-in-up">
                 <div class="social-links">Social Links:</div>
                 <Socials />
               </div>
@@ -55,6 +59,77 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </div>
     </section>
     
+
+    <!-- Tech Stack Section -->
+    <section id="tech-stack" class="tech-stack-section">
+      <h2 class="tech-stack-title fade-in-up">The Technologies Behind My Work</h2>
+      <div class="tech-logos fade-in-up">
+        <div class="tech-logo">
+          <img src="/assets/icons/csharp.svg" alt="C#" />
+          <span>C#</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/dotnet-logo.svg" alt=".NET" />
+          <span>.NET</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/sql-server.svg" alt="SQL Server" />
+          <span>SQL Server</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/azure.svg" alt="Azure" />
+          <span>Azure</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/aws.svg" alt="AWS" />
+          <span>AWS</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/python.svg" alt="Python" />
+          <span>Python</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/nodejs.svg" alt="Node.js" />
+          <span>Node.js</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/javascript.svg" alt="JavaScript" />
+          <span>JavaScript</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/typescript.svg" alt="TypeScript" />
+          <span>TypeScript</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/html5.svg" alt="HTML5" />
+          <span>HTML5</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/css3.svg" alt="CSS3" />
+          <span>CSS3</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/jquery.svg" alt="jQuery" />
+          <span>jQuery</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/react.svg" alt="React" />
+          <span>React</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/angular.svg" alt="Angular" />
+          <span>Angular</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/nextjs.svg" alt="Next.js" />
+          <span>Next.js</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/docker.svg" alt="Docker" />
+          <span>Docker</span>
+        </div>
+      </div>
+    </section>
 
     <!-- Recent Projects Section -->
     {
@@ -84,9 +159,17 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         </div>
         <div class="about-text">
           <h2>About Me</h2>
-          <p>
-            I'm a senior engineer with a passion for scalable systems, clean design, and user-friendly tools. 
-            Currently focused on building full-stack apps using the modern AWS ecosystem.
+<p>
+  I thrive on solving complex problems, whether it’s architecting cloud-native solutions or streamlining legacy codebases. I also have a growing passion for storytelling, media, and AI — and I’m building a creative studio that blends technology with narrative.
+</p>
+<p>
+  Whether I’m deep in code or sketching out a new product idea, I’m all about creating meaningful, high-impact solutions.
+</p>
+<p>
+  Right now, I’m looking for a role where I can contribute as an engineer while continuing to sharpen my craft and push creative boundaries.
+</p>
+<p>
+  I’m always looking for new challenges and opportunities to grow. If you’re interested in working together, please reach out!
           </p>
         </div>
       </div>
@@ -98,13 +181,39 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   <Footer />
 </Layout>
 
+<script>
+  // Fade in animation
+  function animateFadeInUp(element: HTMLElement, delay: number = 0): void {
+    setTimeout(() => {
+      element.style.opacity = '1';
+      element.style.transform = 'translateY(0)';
+    }, delay);
+  }
+
+  // Initialize fade-in animations
+  function initFadeAnimations() {
+    const fadeElements = document.querySelectorAll('.fade-in-up');
+    
+    fadeElements.forEach((element, index) => {
+      const delay = index * 300; // 300ms delay between each element
+      animateFadeInUp(element as HTMLElement, delay);
+    });
+  }
+
+  // Run on DOM content loaded
+  document.addEventListener('DOMContentLoaded', initFadeAnimations);
+
+  // Also run when navigating back (for Astro view transitions)
+  document.addEventListener('astro:page-load', initFadeAnimations);
+</script>
+
 <style>
   /* ===== Hero Section ===== */
   .hero-section {
     @apply py-16 sm:py-24;
   }
   .hero-content {
-    @apply max-w-4xl mx-auto text-center;
+    @apply max-w-4xl mx-auto text-left;
   }
   .hero-text {
     @apply space-y-8;
@@ -117,11 +226,11 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     background-clip: text;
   }
   .hero-subtitle {
-    @apply text-xl sm:text-2xl leading-relaxed;
+    @apply text-lg sm:text-xl leading-relaxed;
     color: #e5e7eb;
   }
   .hero-buttons {
-    @apply flex flex-col sm:flex-row gap-4 justify-center items-center;
+    @apply flex flex-col sm:flex-row gap-4 justify-start items-start;
   }
   .primary-button {
     @apply px-8 py-3 text-lg font-semibold rounded-lg transition-all duration-200;
@@ -144,10 +253,39 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     transform: translateY(-2px);
   }
   .social-wrapper {
-    @apply mt-8 flex flex-col sm:flex-row sm:items-center justify-center;
+    @apply mt-8 flex flex-col sm:flex-row sm:items-center justify-start;
   }
   .social-links {
     @apply mb-2 mr-4 whitespace-nowrap sm:mb-0;
+    color: #e5e7eb;
+  }
+
+  /* ===== Tech Stack Section ===== */
+  .tech-stack-section {
+    @apply py-16 px-8;
+  }
+  .tech-stack-title {
+    @apply text-3xl font-bold tracking-tight text-center mb-12;
+    color: white;
+  }
+  .tech-logos {
+    @apply grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 max-w-6xl mx-auto;
+  }
+  .tech-logo {
+    @apply flex flex-col items-center justify-center p-4 rounded-lg transition-all duration-300 cursor-pointer;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .tech-logo:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: translateY(-4px);
+  }
+  .tech-logo img {
+    @apply w-8 h-8 mb-2;
+  }
+  .tech-logo span {
+    @apply text-xs font-medium text-center;
     color: #e5e7eb;
   }
 
@@ -202,5 +340,11 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   #featured h2 {
     @apply mb-8 text-3xl font-bold tracking-tight text-center;
     color: white;
+  }
+
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
   }
 </style>
