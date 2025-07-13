@@ -190,15 +190,21 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     }, delay);
   }
 
-  // Initialize fade-in animations when DOM is loaded
-  document.addEventListener('DOMContentLoaded', function() {
+  // Initialize fade-in animations
+  function initFadeAnimations() {
     const fadeElements = document.querySelectorAll('.fade-in-up');
     
     fadeElements.forEach((element, index) => {
       const delay = index * 300; // 300ms delay between each element
       animateFadeInUp(element as HTMLElement, delay);
     });
-  });
+  }
+
+  // Run on DOM content loaded
+  document.addEventListener('DOMContentLoaded', initFadeAnimations);
+
+  // Also run when navigating back (for Astro view transitions)
+  document.addEventListener('astro:page-load', initFadeAnimations);
 </script>
 
 <style>

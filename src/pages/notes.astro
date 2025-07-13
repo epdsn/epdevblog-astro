@@ -3,12 +3,9 @@ import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Footer from "@components/Footer.astro";
 import Card from "@components/Card";
-import getSortedPosts from "@utils/getSortedPosts";
-import slugify from "@utils/slugify";
 
-const posts = await getCollection("blog");
-const sortedPosts = getSortedPosts(posts);
-const notes = sortedPosts.filter(({ data }) => data.tags && data.tags.includes("notes"));
+const notes = await getCollection("notes");
+const sortedNotes = notes.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
 <Layout title="Eric Perez Notes">
@@ -23,9 +20,9 @@ const notes = sortedPosts.filter(({ data }) => data.tags && data.tags.includes("
       </div>
       
       <ul>
-        {notes.map(({ data }) => (
+        {sortedNotes.map(({ data, slug }) => (
           <Card
-            href={`/posts/${slugify(data)}`}
+            href={`/notes/${slug}`}
             frontmatter={data}
             secHeading={false}
           />
