@@ -60,6 +60,77 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     </section>
     
 
+    <!-- Tech Stack Section -->
+    <section id="tech-stack" class="tech-stack-section">
+      <h2 class="tech-stack-title fade-in-up">Technologies I Work With</h2>
+      <div class="tech-logos fade-in-up">
+        <div class="tech-logo">
+          <img src="/assets/icons/csharp.svg" alt="C#" />
+          <span>C#</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/dotnet-logo.svg" alt=".NET" />
+          <span>.NET</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/sql-server.svg" alt="SQL Server" />
+          <span>SQL Server</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/azure.svg" alt="Azure" />
+          <span>Azure</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/aws.svg" alt="AWS" />
+          <span>AWS</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/python.svg" alt="Python" />
+          <span>Python</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/nodejs.svg" alt="Node.js" />
+          <span>Node.js</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/javascript.svg" alt="JavaScript" />
+          <span>JavaScript</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/typescript.svg" alt="TypeScript" />
+          <span>TypeScript</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/html5.svg" alt="HTML5" />
+          <span>HTML5</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/css3.svg" alt="CSS3" />
+          <span>CSS3</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/jquery.svg" alt="jQuery" />
+          <span>jQuery</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/react.svg" alt="React" />
+          <span>React</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/angular.svg" alt="Angular" />
+          <span>Angular</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/nextjs.svg" alt="Next.js" />
+          <span>Next.js</span>
+        </div>
+        <div class="tech-logo">
+          <img src="/assets/icons/docker.svg" alt="Docker" />
+          <span>Docker</span>
+        </div>
+      </div>
+    </section>
+
     <!-- Recent Projects Section -->
     {
       recentProjects.length > 0 && (
@@ -180,6 +251,35 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   }
   .social-links {
     @apply mb-2 mr-4 whitespace-nowrap sm:mb-0;
+    color: #e5e7eb;
+  }
+
+  /* ===== Tech Stack Section ===== */
+  .tech-stack-section {
+    @apply py-16 px-8;
+  }
+  .tech-stack-title {
+    @apply text-3xl font-bold tracking-tight text-center mb-12;
+    color: white;
+  }
+  .tech-logos {
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 max-w-7xl mx-auto;
+  }
+  .tech-logo {
+    @apply flex flex-col items-center justify-center p-6 rounded-lg transition-all duration-300 cursor-pointer;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .tech-logo:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(59, 130, 246, 0.5);
+    transform: translateY(-4px);
+  }
+  .tech-logo img {
+    @apply w-12 h-12 mb-3;
+  }
+  .tech-logo span {
+    @apply text-sm font-medium text-center;
     color: #e5e7eb;
   }
 
