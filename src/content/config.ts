@@ -38,4 +38,13 @@ const projectsCollection = defineCollection({
     }),
 });
 
-export const collections = { blog, projects: projectsCollection };
+const notes = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    date: z.string(),
+    tags: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { blog, projects: projectsCollection, notes };
