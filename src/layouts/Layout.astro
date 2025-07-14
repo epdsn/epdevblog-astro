@@ -80,6 +80,15 @@ const socialImageURL = new URL(
       )
     }
 
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-74VTVYQPWW"></script>
+    <script>
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      function gtag(...args: any[]){((window as any).dataLayer as any[]).push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-74VTVYQPWW');
+    </script>
+
     <ViewTransitions />
 
     <script is:inline src="/toggle-theme.js"></script>
