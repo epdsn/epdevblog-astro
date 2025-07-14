@@ -181,15 +181,19 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       <form 
         action="https://formspree.io/f/mpwlanjb" 
         method="POST" 
-        data-turbo="false" 
         class="contact-form fade-in-up"
+        id="contactForm"
       >
         <input type="text" name="name" placeholder="Your name" required>
         <input type="email" name="_replyto" placeholder="Your email" required>
         <textarea name="message" placeholder="Your message" rows="5" required></textarea>
         <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-        <button type="submit">Send Message</button>
+        <button type="submit" id="submitButton">Send Message</button>
       </form>
+      <div id="successMessage" class="success-message fade-in-up" style="display: none;">
+        <h3>Thank you for your message!</h3>
+        <p>I'll get back to you as soon as possible.</p>
+      </div>
     </section>
 
 
@@ -223,45 +227,80 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   // Also run when navigating back (for Astro view transitions)
   document.addEventListener('astro:page-load', initFadeAnimations);
 
-  // reCAPTCHA v3 execution
-  function initRecaptcha() {
-    const form = document.querySelector('.contact-form') as HTMLFormElement;
+  // Contact form handling with client-side redirect
+  function initContactForm() {
+    const form = document.getElementById('contactForm') as HTMLFormElement;
+    const submitButton = document.getElementById('submitButton') as HTMLButtonElement;
+    const successMessage = document.getElementById('successMessage') as HTMLDivElement;
+    
     if (form) {
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Only use reCAPTCHA on production (not localhost)
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-          console.log('Skipping reCAPTCHA on localhost');
-          window.location.href = '/thank-you';
-          return;
+        // Disable submit button and show loading state
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+        
+        // Handle reCAPTCHA on production
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+          (window as any).grecaptcha.ready(function() {
+            (window as any).grecaptcha.execute('6Lf7xYIrAAAAAHt3zKMIraOoqsGrwV0pMTa-7ilr', {action: 'submit'}).then(function(token: string) {
+              const recaptchaResponse = document.getElementById('g-recaptcha-response') as HTMLInputElement;
+              if (recaptchaResponse) {
+                recaptchaResponse.value = token;
+              }
+              submitForm();
+            }).catch(function(error: any) {
+              console.error('reCAPTCHA error:', error);
+              submitForm();
+            });
+          });
+        } else {
+          submitForm();
         }
         
-        (window as any).grecaptcha.ready(function() {
-          console.log('reCAPTCHA ready, executing...');
-          (window as any).grecaptcha.execute('6Lf7xYIrAAAAAHt3zKMIraOoqsGrwV0pMTa-7ilr', {action: 'submit'}).then(function(token: string) {
-            console.log('reCAPTCHA token received:', token.substring(0, 20) + '...');
-            const recaptchaResponse = document.getElementById('g-recaptcha-response') as HTMLInputElement;
-            if (recaptchaResponse) {
-              recaptchaResponse.value = token;
+        function submitForm() {
+          const formData = new FormData(form);
+          
+          fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
             }
-            // Redirect to thank you page after successful submission
-            window.location.href = '/thank-you';
-          }).catch(function(error: any) {
-            console.error('reCAPTCHA error:', error);
-            // Fallback: submit without reCAPTCHA
-            window.location.href = '/thank-you';
+          })
+          .then(response => {
+            if (response.ok) {
+              // Show success message
+              form.style.display = 'none';
+              successMessage.style.display = 'block';
+              animateFadeInUp(successMessage, 0);
+              
+              // Redirect to thank you page after 2 seconds
+              setTimeout(() => {
+                window.location.href = '/thank-you';
+              }, 2000);
+            } else {
+              throw new Error('Form submission failed');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            // Re-enable submit button
+            submitButton.disabled = false;
+            submitButton.textContent = 'Send Message';
+            alert('There was an error sending your message. Please try again.');
           });
-        });
+        }
       });
     }
   }
 
   // Run on DOM content loaded
-  document.addEventListener('DOMContentLoaded', initRecaptcha);
+  document.addEventListener('DOMContentLoaded', initContactForm);
 
   // Also run when navigating back (for Astro view transitions)
-  document.addEventListener('astro:page-load', initRecaptcha);
+  document.addEventListener('astro:page-load', initContactForm);
 </script>
 
 <style>

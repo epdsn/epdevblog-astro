@@ -1,0 +1,129 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Footer from "@components/Footer.astro";
+---
+
+<Layout title="Thank You - Eric Perez">
+  <main id="main-content">
+    <section class="thank-you-section">
+      <div class="thank-you-content">
+        <div class="thank-you-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-16 h-16">
+            <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        
+        <h1 class="thank-you-title fade-in-up">Thank You!</h1>
+        <p class="thank-you-message fade-in-up">
+          Your message has been sent successfully. I'll get back to you as soon as possible.
+        </p>
+        
+        <div class="thank-you-actions fade-in-up">
+          <a href="/" class="back-home-btn">
+            ← Back to Home
+          </a>
+          <a href="/projects" class="view-projects-btn">
+            View My Projects
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Fade in animation
+  function animateFadeInUp(element: HTMLElement, delay: number = 0): void {
+    setTimeout(() => {
+      element.style.opacity = '1';
+      element.style.transform = 'translateY(0)';
+    }, delay);
+  }
+
+  // Initialize fade-in animations
+  function initFadeAnimations() {
+    const fadeElements = document.querySelectorAll('.fade-in-up');
+    
+    fadeElements.forEach((element, index) => {
+      const delay = index * 300; // 300ms delay between each element
+      animateFadeInUp(element as HTMLElement, delay);
+    });
+  }
+
+  // Run on DOM content loaded
+  document.addEventListener('DOMContentLoaded', initFadeAnimations);
+
+  // Also run when navigating back (for Astro view transitions)
+  document.addEventListener('astro:page-load', initFadeAnimations);
+</script>
+
+<style>
+  .thank-you-section {
+    @apply py-16 sm:py-24 px-8;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .thank-you-content {
+    @apply text-center max-w-2xl mx-auto;
+  }
+  
+  .thank-you-icon {
+    @apply mb-8 flex justify-center;
+    color: #10b981;
+  }
+  
+  .thank-you-title {
+    @apply text-4xl sm:text-5xl font-bold tracking-tight mb-6;
+    background: linear-gradient(135deg, #3b82f6, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+  }
+  
+  .thank-you-message {
+    @apply text-xl leading-relaxed mb-12;
+    color: #e5e7eb;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+  }
+  
+  .thank-you-actions {
+    @apply flex flex-col sm:flex-row gap-4 justify-center items-center;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+  }
+  
+  .back-home-btn {
+    @apply px-8 py-3 text-lg font-semibold rounded-lg transition-all duration-200;
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .back-home-btn:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+  }
+  
+  .view-projects-btn {
+    @apply px-8 py-3 text-lg font-semibold rounded-lg border-2 transition-all duration-200;
+    background-color: transparent;
+    color: white;
+    border-color: white;
+  }
+  
+  .view-projects-btn:hover {
+    background-color: white;
+    color: black;
+    transform: translateY(-2px);
+  }
+</style> 
