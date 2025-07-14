@@ -175,6 +175,23 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </div>
     </section>
 
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+      <h2 class="contact-title fade-in-up">Contact Me</h2>
+      <form 
+        action="https://formspree.io/f/mpwlanjb" 
+        method="POST" 
+        data-turbo="false" 
+        class="contact-form fade-in-up"
+      >
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="_replyto" placeholder="Your email" required>
+        <textarea name="message" placeholder="Your message" rows="5" required></textarea>
+        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+
 
   </main>
 
@@ -205,6 +222,46 @@ const socialCount = SOCIALS.filter(social => social.active).length;
 
   // Also run when navigating back (for Astro view transitions)
   document.addEventListener('astro:page-load', initFadeAnimations);
+
+  // reCAPTCHA v3 execution
+  function initRecaptcha() {
+    const form = document.querySelector('.contact-form') as HTMLFormElement;
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Only use reCAPTCHA on production (not localhost)
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          console.log('Skipping reCAPTCHA on localhost');
+          window.location.href = '/thank-you';
+          return;
+        }
+        
+        (window as any).grecaptcha.ready(function() {
+          console.log('reCAPTCHA ready, executing...');
+          (window as any).grecaptcha.execute('6Lf7xYIrAAAAAHt3zKMIraOoqsGrwV0pMTa-7ilr', {action: 'submit'}).then(function(token: string) {
+            console.log('reCAPTCHA token received:', token.substring(0, 20) + '...');
+            const recaptchaResponse = document.getElementById('g-recaptcha-response') as HTMLInputElement;
+            if (recaptchaResponse) {
+              recaptchaResponse.value = token;
+            }
+            // Redirect to thank you page after successful submission
+            window.location.href = '/thank-you';
+          }).catch(function(error: any) {
+            console.error('reCAPTCHA error:', error);
+            // Fallback: submit without reCAPTCHA
+            window.location.href = '/thank-you';
+          });
+        });
+      });
+    }
+  }
+
+  // Run on DOM content loaded
+  document.addEventListener('DOMContentLoaded', initRecaptcha);
+
+  // Also run when navigating back (for Astro view transitions)
+  document.addEventListener('astro:page-load', initRecaptcha);
 </script>
 
 <style>
@@ -329,6 +386,52 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   .about-text p {
     @apply text-lg leading-relaxed;
     color: #e5e7eb;
+  }
+
+  /* ===== Contact Section ===== */
+  .contact-section {
+    @apply py-16 px-8;
+    background-color: #172435;
+  }
+  .contact-title {
+    @apply text-3xl font-bold tracking-tight text-center mb-12;
+    color: white;
+  }
+  .contact-form {
+    @apply max-w-2xl mx-auto space-y-6;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    @apply w-full px-4 py-3 rounded-lg border-2 transition-all duration-200;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    @apply outline-none;
+    border-color: #3b82f6;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder {
+    color: #9ca3af;
+  }
+  .contact-form button {
+    @apply w-full px-8 py-3 text-lg font-semibold rounded-lg transition-all duration-200;
+    background-color: #3b82f6;
+    color: white;
+  }
+  .contact-form button:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+  }
+  .success-message {
+    @apply text-center text-lg py-8;
+    color: #10b981;
+  }
+  .recaptcha-container {
+    @apply flex justify-center;
   }
 
   /* ===== Featured & Notes Sections ===== */
