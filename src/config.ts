@@ -1,10 +1,10 @@
 import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: "https://epweb.dev/", // replace this with your deployed domain
+  website: "https://epdsn.dev/", // replace this with your deployed domain
   author: "Eric Perez",
-  desc: "Eric Perez is a Software Engineer focused on front-end development, cloud computing, and modern web technologies. Discover projects, insights, and quick notes.",
-  title: "Eric Perez",
+  desc: "Eric Perez is a Software Engineer focused on full stack development, cloud computing, and modern web technologies. Discover projects, insights, and quick notes on React, TypeScript, AWS, and more.",
+  title: "Eric Perez - Software Engineer",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: false,
   postPerPage: 3,
